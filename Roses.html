@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Rose for Rose Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Monoton&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: url('https://4.imimg.com/data4/CL/JQ/MY-15290288/roses-various-colours-plants.jpg') no-repeat center/cover;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.5s ease-in-out;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+    }
+    
+    h1 {
+      font-size: 4rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #ffeb3b;
+      text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    h1:hover {
+      transform: scale(1.1);
+      color: #ff4081;
+    }
+    
+    #formSection, #roseDisplay {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+      backdrop-filter: blur(10px);
+      transition: opacity 0.5s ease-in-out;
+    }
+    
+    .rose {
+      width: 100%;
+      max-width: 320px;
+      height: 320px;
+      margin: 20px auto;
+      background-size: cover;
+      background-position: center;
+      border: 5px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+    }
+    
+    input, select, button {
+      padding: 12px;
+      font-size: 20px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      transition: 0.3s;
+      width: 100%;
+      max-width: 320px;
+    }
+    
+    select, input {
+      background: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      font-weight: bold;
+      font-family: 'Great Vibes', cursive;
+      font-size: 22px;
+    }
+    
+    button {
+      background: linear-gradient(45deg, #ff4081, #c2185b);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 64, 129, 0.5);
+      transition: all 0.3s ease-in-out;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 12px;
+    }
+    
+    button:hover {
+      background: linear-gradient(45deg, #c2185b, #ff4081);
+      box-shadow: 0 6px 15px rgba(255, 64, 129, 0.8);
+      transform: translateY(-3px);
+    }
+    
+    button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 5px rgba(255, 64, 129, 0.5);
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    #messageDisplay {
+      font-family: 'Great Vibes', cursive;
+      font-size: 26px;
+      font-weight: bold;
+      color: #ffeb3b;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Rose Day</h1>
+  <div id="formSection">
+    <p>Select a rose and craft a message:</p>
+    <select id="roseColor">
+      <option value="mystic-red">Mystic Red (Love)</option>
+      <option value="blush-pink">Blush Pink (Admiration)</option>
+      <option value="icy-white">Icy White (Purity)</option>
+      <option value="golden-glow">Golden Yellow (Friendship)</option>
+    </select>
+    <br>
+    <input type="text" id="customMessage" placeholder="Enter your message here">
+    <br>
+    <button id="createRose">Create My Custom Rose</button>
+  </div>
+  
+  <div id="roseDisplay" class="hidden">
+    <h2>Your Customized Rose</h2>
+    <div id="roseImage" class="rose" role="img" aria-label="Your selected rose"></div>
+    <p id="messageDisplay"></p>
+    <button id="copyLink">Copy Shareable Link</button>
+    <button id="resetRose">Create Another</button>
+  </div>
+  
+  <script>
+    const roseImages = {
+      'mystic-red': 'https://www.30secondsofcode.org/assets/cover/flower-portrait-5-800.webp',
+      'blush-pink': 'https://cdn.pixabay.com/photo/2018/08/05/12/10/rose-3585489_1280.jpg',
+      'icy-white': 'https://m.media-amazon.com/images/I/51aN1UHZ-WL._AC_UF1000,1000_QL80_.jpg',
+      'golden-glow': 'https://m.media-amazon.com/images/I/51kGhTOmhJL._AC_UF1000,1000_QL80_.jpg'
+    };
+    
+    // Function to show rose and message
+    function showRose(rose, message) {
+      const roseImage = document.getElementById('roseImage');
+      
+      // Ensure the image container displays correctly on mobile
+      roseImage.style.backgroundImage = `url(${roseImages[rose]})`;
+      roseImage.style.backgroundSize = 'cover';
+      roseImage.style.backgroundPosition = 'center';
+      roseImage.style.width = '100%';
+      roseImage.style.height = '300px'; 
+      roseImage.style.display = 'block'; // Ensure it's visible
+    
+      document.getElementById('messageDisplay').textContent = message;
+      document.getElementById('formSection').classList.add('hidden');
+      document.getElementById('roseDisplay').classList.remove('hidden');
+    }
+    
+    // Function to handle rose creation
+    function createRose() {
+      const rose = document.getElementById('roseColor').value;
+      const message = encodeURIComponent(document.getElementById('customMessage').value.trim());
+    
+      if (!message) {
+        alert("Please enter a message!");
+        return;
+      }
+    
+      const newUrl = `${window.location.origin}${window.location.pathname}?rose=${rose}&message=${message}`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
+    
+      showRose(rose, decodeURIComponent(message));
+    }
+    
+    // Add event listeners for both click and touch
+    document.getElementById('createRose').addEventListener('click', createRose);
+    document.getElementById('createRose').addEventListener('touchend', createRose);
+    
+    // Reset the page
+    function resetRose() {
+      location.href = window.location.pathname;
+    }
+    document.getElementById('resetRose').addEventListener('click', resetRose);
+    document.getElementById('resetRose').addEventListener('touchend', resetRose);
+    
+    // Copy the shareable link
+    function copyLink() {
+      const currentUrl = window.location.href;
+    
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(currentUrl).then(() => {
+          alert("Shareable link copied!");
+        }).catch(err => console.error("Failed to copy:", err));
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = currentUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        alert("Shareable link copied!");
+      }
+    }
+    document.getElementById('copyLink').addEventListener('click', copyLink);
+    document.getElementById('copyLink').addEventListener('touchend', copyLink);
+    
+    // Ensure the page loads correctly with URL parameters
+    window.addEventListener('load', function () {
+      setTimeout(() => { // Small delay to allow rendering
+        const urlParams = new URLSearchParams(window.location.search);
+        const rose = urlParams.get('rose');
+        const message = urlParams.get('message');
+    
+        if (rose && message) {
+          showRose(rose, decodeURIComponent(message));
+        }
+      }, 200);
+    });
+    </script>
+    
+    
+</body>
+</html>
